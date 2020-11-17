@@ -2,6 +2,7 @@
 
 resource "azurerm_machine_learning_workspace" "example" {
   name                    = "${var.prefix}-ws-${random_string.postfix.result}"
+  friendly_name           = var.workspace_display_name
   location                = azurerm_resource_group.example.location
   resource_group_name     = azurerm_resource_group.example.name
   application_insights_id = azurerm_application_insights.example.id
