@@ -26,4 +26,7 @@ This includes rollout of the following resources:
 # Known Limitations
 
 * Still need to update `Default Datastore` to use Managed Identity of the Studio UI data access
-* TBC: Fileshare for Compute Instances is not provisioned automatically (probably is provisioned automatically with the first CI)
+
+# Important Notes
+
+* The fileshare used for Compute Instances will be automatically provisioned with the first Compute Instance
