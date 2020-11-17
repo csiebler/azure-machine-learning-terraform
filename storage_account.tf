@@ -1,4 +1,4 @@
-# Storage Account with Private Endpoint for Blob and File
+# Storage Account with VNET binding and Private Endpoint for Blob and File
 
 resource "azurerm_storage_account" "example" {
   name                     = "${var.prefix}sa${random_string.postfix.result}"
