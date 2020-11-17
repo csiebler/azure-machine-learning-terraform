@@ -14,6 +14,8 @@ resource "azurerm_machine_learning_workspace" "example" {
   }
 }
 
+# DNS Zones
+
 resource "azurerm_private_dns_zone" "ws_zone_api" {
   name                = "privatelink.api.azureml.ms"
   resource_group_name = azurerm_resource_group.example.name
@@ -23,6 +25,8 @@ resource "azurerm_private_dns_zone" "ws_zone_notebooks" {
   name                = "privatelink.notebooks.azure.net"
   resource_group_name = azurerm_resource_group.example.name
 }
+
+# Linking of DNS zones to Virtual Network
 
 resource "azurerm_private_dns_zone_virtual_network_link" "ws_zone_api_link" {
   name                  = "${random_string.postfix.result}_link_api"
@@ -38,6 +42,8 @@ resource "azurerm_private_dns_zone_virtual_network_link" "ws_zone_notebooks_link
   virtual_network_id    = azurerm_virtual_network.example.id
 }
 
+# Private Endpoint configuration
+
 resource "azurerm_private_endpoint" "ws_pe" {
   name                = "${var.prefix}-ws-pe-${random_string.postfix.result}"
   location            = azurerm_resource_group.example.location
@@ -52,7 +58,7 @@ resource "azurerm_private_endpoint" "ws_pe" {
   }
 
   private_dns_zone_group {
-    name                 = "private-dns-zone-group"
+    name                 = "private-dns-zone-group-ws"
     private_dns_zone_ids = [azurerm_private_dns_zone.ws_zone_api.id, azurerm_private_dns_zone.ws_zone_notebooks.id]
   }
 }
