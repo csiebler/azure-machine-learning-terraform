@@ -3,11 +3,11 @@
 This repo shows an example for rolling out a complete Azure Machine Learning enterprise enviroment via Terraform. That includes the following resources:
 
 * Azure Machine Learning Workspace with Private Link
-* Azure Storage Account with Private Link (Blob, File)
-* Virtual Network
+* Azure Storage Account with VNET binding (using Service Endpoints) and Private Link for Blob and File
+* Azure Key Vault with VNET binding (using Service Endpoints)
 * Azure Container Registry
 * Azure Application Insights
-* Azure Key Vault
+* Virtual Network
 
 ## Instructions
 
