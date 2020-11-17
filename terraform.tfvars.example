@@ -1,0 +1,5 @@
+resource_group="aml-terraform-demo"
+location="West Europe"
+jumphost_username="azureuser"
+jumphost_password="ThisIsNotVerySecure!"
+prefix="aml"
