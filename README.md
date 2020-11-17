@@ -19,3 +19,8 @@ This repo shows an example for rolling out a complete Azure Machine Learning ent
     terraform plan
     terraform apply
     ```
+
+# Known Limitations
+
+* Still need to update `Default Datastore` to use Managed Identity of the Studio UI data access
+* TBC: Fileshare for Compute Instances is not provisioned automatically (probably is provisioned automatically with the first CI)
