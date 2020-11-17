@@ -1,3 +1,5 @@
+# Jump for testing VNET and Private Link
+
 resource "azurerm_public_ip" "example" {
   name                    = "dsvm-pip"
   location                = azurerm_resource_group.example.location
@@ -5,8 +7,8 @@ resource "azurerm_public_ip" "example" {
   allocation_method       = "Dynamic"
 }
 
-resource "azurerm_network_interface" "dev_vm_nic" {
-  name                = "dev-vm-nic"
+resource "azurerm_network_interface" "dsvm_nic" {
+  name                = "dsvm-nic"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
@@ -18,7 +20,7 @@ resource "azurerm_network_interface" "dev_vm_nic" {
   }
 }
 
-resource "azurerm_network_security_group" "dev_vm_nsg" {
+resource "azurerm_network_security_group" "dsvm_nsg" {
   name                = "dsvm-vm-nsg"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
@@ -36,16 +38,16 @@ resource "azurerm_network_security_group" "dev_vm_nsg" {
   }
 }
 
-resource "azurerm_network_interface_security_group_association" "dev_vm_nsg_association" {
-  network_interface_id      = azurerm_network_interface.dev_vm_nic.id
-  network_security_group_id = azurerm_network_security_group.dev_vm_nsg.id
+resource "azurerm_network_interface_security_group_association" "dsvm_nsg_association" {
+  network_interface_id      = azurerm_network_interface.dsvm_nic.id
+  network_security_group_id = azurerm_network_security_group.dsvm_nsg.id
 }
 
-resource "azurerm_virtual_machine" "dev_vm" {
+resource "azurerm_virtual_machine" "dsvm" {
   name                  = "dsvm-jumpbox"
   location              = azurerm_resource_group.example.location
   resource_group_name   = azurerm_resource_group.example.name
-  network_interface_ids = [azurerm_network_interface.dev_vm_nic.id]
+  network_interface_ids = [azurerm_network_interface.dsvm_nic.id]
   vm_size               = "Standard_DS3_v2"
 
   delete_os_disk_on_termination = true
@@ -59,7 +61,7 @@ resource "azurerm_virtual_machine" "dev_vm" {
   }
 
   os_profile {
-    computer_name  = "dev-vm"
+    computer_name  = "dsvm"
     admin_username = var.jumphost_username
     admin_password = var.jumphost_password
   }
@@ -74,10 +76,22 @@ resource "azurerm_virtual_machine" "dev_vm" {
   }
 
   storage_os_disk {
-    name              = "dev-vm-osdisk"
+    name              = "dsvm-osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "StandardSSD_LRS"
   }
+}
 
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "example" {
+  virtual_machine_id = azurerm_virtual_machine.dsvm.id
+  location           = azurerm_resource_group.example.location
+  enabled            = true
+
+  daily_recurrence_time = "2000"
+  timezone              = "W. Europe Standard Time"
+
+  notification_settings {
+    enabled         = false
+  }
 }
