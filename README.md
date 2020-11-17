@@ -11,7 +11,8 @@ This repo shows an example for rolling out a complete Azure Machine Learning ent
 
 ## Instructions
 
-1. Update [`variables.tf`](variables.tf) with your desired values
+1. Copy `terraform.tfvars.example` to `terraform.tfvars`
+1. Update `terraform.tfvars` with your desired values
 2. Run Terraform
     ```
     terraform init
