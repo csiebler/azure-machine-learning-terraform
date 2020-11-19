@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "example" {
-  name     = "aml-terraform-demo"
-  location = "West Europe"
+  name     = var.resource_group
+  location = var.location
 }
