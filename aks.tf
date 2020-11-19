@@ -1,6 +1,11 @@
-# Azure Kubernetes Service
+# Azure Kubernetes Service (not deployed per default)
+
+variable "deploy_aks" {
+  default = false
+}
 
 resource "azurerm_kubernetes_cluster" "example" {
+  count               = var.deploy_aks ? 1 : 0
   name                = "${var.prefix}-aks-${random_string.postfix.result}"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
