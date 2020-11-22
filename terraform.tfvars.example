@@ -4,3 +4,4 @@ location="West Europe"
 jumphost_username="azureuser"
 jumphost_password="ThisIsNotVerySecure!"
 prefix="aml"
+deploy_aks=true
