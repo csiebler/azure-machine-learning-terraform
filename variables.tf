@@ -23,6 +23,10 @@ variable "prefix" {
   default = "aml"
 }
 
+variable "deploy_aks" {
+  default = true
+}
+
 resource "random_string" "postfix" {
   length = 6
   special = false
