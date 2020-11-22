@@ -11,7 +11,7 @@ resource "azurerm_kubernetes_cluster" "example" {
     name       = "default"
     node_count = 3
     vm_size    = "Standard_D2_v2"
-	  vnet_subnet_id = azurerm_subnet.example2.id
+	  vnet_subnet_id = azurerm_subnet.example2[count.index].id
   }
   
   identity {
