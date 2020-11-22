@@ -15,3 +15,11 @@ resource "azurerm_subnet" "example" {
   service_endpoints    = ["Microsoft.ContainerRegistry", "Microsoft.KeyVault", "Microsoft.Storage"]
   enforce_private_link_endpoint_network_policies = true
 }
+
+resource "azurerm_subnet" "example2" {
+  count               = var.deploy_aks ? 1 : 0
+  name                 = "${var.prefix}-subnet2-${random_string.postfix.result}"
+  resource_group_name  = azurerm_resource_group.example.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.2.0/24"]
+}
