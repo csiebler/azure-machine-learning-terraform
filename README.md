@@ -26,6 +26,8 @@ This includes rollout of the following resources:
     $ terraform apply
     ```
 
+If you want to deploy AKS, you need to have [Azure Machine Learning CLI installed](https://docs.microsoft.com/en-us/azure/machine-learning/reference-azure-machine-learning-cli).
+
 # Known Limitations
 
 * Still need to update `Default Datastore` to use Managed Identity of the Studio UI data access
