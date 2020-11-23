@@ -1,29 +1,29 @@
 # Jump for testing VNET and Private Link
 
-resource "azurerm_public_ip" "example" {
-  name                    = "dsvm-pip"
-  location                = azurerm_resource_group.example.location
-  resource_group_name     = azurerm_resource_group.example.name
+resource "azurerm_public_ip" "jumphost_public_ip" {
+  name                    = "jumphost-pip"
+  location                = azurerm_resource_group.aml_rg.location
+  resource_group_name     = azurerm_resource_group.aml_rg.name
   allocation_method       = "Dynamic"
 }
 
-resource "azurerm_network_interface" "dsvm_nic" {
-  name                = "dsvm-nic"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+resource "azurerm_network_interface" "jumphost_nic" {
+  name                = "jumphost-nic"
+  location            = azurerm_resource_group.aml_rg.location
+  resource_group_name = azurerm_resource_group.aml_rg.name
 
   ip_configuration {
     name                          = "configuration"
-    subnet_id                     = azurerm_subnet.example.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.example.id
+    subnet_id                     = azurerm_subnet.aml_subnet.id
+    public_ip_address_id          = azurerm_public_ip.jumphost_public_ip.id
   }
 }
 
-resource "azurerm_network_security_group" "dsvm_nsg" {
-  name                = "dsvm-vm-nsg"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+resource "azurerm_network_security_group" "jumphost_nsg" {
+  name                = "jumphost-nsg"
+  location            = azurerm_resource_group.aml_rg.location
+  resource_group_name = azurerm_resource_group.aml_rg.name
 
   security_rule {
     name                       = "RDP"
@@ -38,16 +38,16 @@ resource "azurerm_network_security_group" "dsvm_nsg" {
   }
 }
 
-resource "azurerm_network_interface_security_group_association" "dsvm_nsg_association" {
-  network_interface_id      = azurerm_network_interface.dsvm_nic.id
-  network_security_group_id = azurerm_network_security_group.dsvm_nsg.id
+resource "azurerm_network_interface_security_group_association" "jumphost_nsg_association" {
+  network_interface_id      = azurerm_network_interface.jumphost_nic.id
+  network_security_group_id = azurerm_network_security_group.jumphost_nsg.id
 }
 
-resource "azurerm_virtual_machine" "dsvm" {
-  name                  = "dsvm-jumpbox"
-  location              = azurerm_resource_group.example.location
-  resource_group_name   = azurerm_resource_group.example.name
-  network_interface_ids = [azurerm_network_interface.dsvm_nic.id]
+resource "azurerm_virtual_machine" "jumphost" {
+  name                  = "jumphost"
+  location              = azurerm_resource_group.aml_rg.location
+  resource_group_name   = azurerm_resource_group.aml_rg.name
+  network_interface_ids = [azurerm_network_interface.jumphost_nic.id]
   vm_size               = "Standard_DS3_v2"
 
   delete_os_disk_on_termination = true
@@ -61,7 +61,7 @@ resource "azurerm_virtual_machine" "dsvm" {
   }
 
   os_profile {
-    computer_name  = "dsvm"
+    computer_name  = "jumphost"
     admin_username = var.jumphost_username
     admin_password = var.jumphost_password
   }
@@ -76,16 +76,16 @@ resource "azurerm_virtual_machine" "dsvm" {
   }
 
   storage_os_disk {
-    name              = "dsvm-osdisk"
+    name              = "jumphost-osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "StandardSSD_LRS"
   }
 }
 
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "example" {
-  virtual_machine_id = azurerm_virtual_machine.dsvm.id
-  location           = azurerm_resource_group.example.location
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "jumphost_schedule" {
+  virtual_machine_id = azurerm_virtual_machine.jumphost.id
+  location           = azurerm_resource_group.aml_rg.location
   enabled            = true
 
   daily_recurrence_time = "2000"

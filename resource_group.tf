@@ -1,4 +1,4 @@
-resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "aml_rg" {
   name     = var.resource_group
   location = var.location
 }
