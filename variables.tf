@@ -10,6 +10,10 @@ variable "location" {
   default = "West Europe"
 }
 
+variable "deploy_aks" {
+  default = false
+}
+
 variable "jumphost_username" {
   default = "azureuser"
 }
