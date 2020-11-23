@@ -1,4 +1,4 @@
-# Azure Kubernetes Service
+# Azure Kubernetes Service (not deployed per default)
 
 resource "azurerm_kubernetes_cluster" "example" {
   count               = var.deploy_aks ? 1 : 0
@@ -22,7 +22,7 @@ resource "azurerm_kubernetes_cluster" "example" {
     network_plugin = "azure"
     dns_service_ip = "10.0.3.10"
     service_cidr = "10.0.3.0/24"
-	docker_bridge_cidr = "172.17.0.1/16"
+	  docker_bridge_cidr = "172.17.0.1/16"
   }  
   
   provisioner "local-exec" {

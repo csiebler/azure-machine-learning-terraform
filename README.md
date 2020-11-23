@@ -13,6 +13,7 @@ This includes rollout of the following resources:
 * Azure Application Insights
 * Virtual Network
 * Jumphost (Windows) for testing
+* (Azure Kubernetes Service - disabled by default and still under development)
 
 ## Instructions
 
