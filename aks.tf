@@ -10,7 +10,7 @@ resource "azurerm_kubernetes_cluster" "aml_aks" {
   default_node_pool {
     name       = "default"
     node_count = 3
-    vm_size    = "Standard_D2_v2"
+    vm_size    = "Standard_DS2_v2"
 	  vnet_subnet_id = azurerm_subnet.aks_subnet[count.index].id
   }
   

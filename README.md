@@ -13,6 +13,8 @@ This includes rollout of the following resources:
 * Azure Application Insights
 * Virtual Network
 * Jumphost (Windows) for testing
+* Compute Cluster (in VNET)
+* Compute Instance (in VNET)
 * (Azure Kubernetes Service - disabled by default and still under development)
 
 ## Instructions
@@ -34,4 +36,4 @@ If you want to deploy AKS, you need to have [Azure Machine Learning CLI installe
 
 # Important Notes
 
-* The fileshare used for Compute Instances will be automatically provisioned with the first Compute Instance
+* The user fileshare for the Compute Instances will be automatically provisioned upon first instance access

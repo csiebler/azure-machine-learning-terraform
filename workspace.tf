@@ -15,6 +15,20 @@ resource "azurerm_machine_learning_workspace" "aml_ws" {
   }
 }
 
+# Create Compute Resources in AML
+
+resource "null_resource" "compute_resouces" {
+  provisioner "local-exec" {
+    command="az ml computetarget create amlcompute --max-nodes 1 --min-nodes 0 --name cpu-cluster --vm-size Standard_DS3_v2 --idle-seconds-before-scaledown 600 --assign-identity [system] --vnet-name ${azurerm_subnet.aml_subnet.virtual_network_name} --subnet-name ${azurerm_subnet.aml_subnet.name} --vnet-resourcegroup-name ${azurerm_subnet.aml_subnet.resource_group_name} --resource-group ${azurerm_machine_learning_workspace.aml_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.aml_ws.name}"
+  }
+
+  provisioner "local-exec" {
+    command="az ml computetarget create computeinstance --name ${var.prefix}-instance01 --vm-size Standard_DS3_v2 --vnet-name ${azurerm_subnet.aml_subnet.virtual_network_name} --subnet-name ${azurerm_subnet.aml_subnet.name} --vnet-resourcegroup-name ${azurerm_subnet.aml_subnet.resource_group_name} --resource-group ${azurerm_machine_learning_workspace.aml_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.aml_ws.name}"
+  }
+ 
+  depends_on = [azurerm_machine_learning_workspace.aml_ws]
+}
+
 # DNS Zones
 
 resource "azurerm_private_dns_zone" "ws_zone_api" {
@@ -62,4 +76,7 @@ resource "azurerm_private_endpoint" "ws_pe" {
     name                 = "private-dns-zone-group-ws"
     private_dns_zone_ids = [azurerm_private_dns_zone.ws_zone_api.id, azurerm_private_dns_zone.ws_zone_notebooks.id]
   }
+
+  # Add Private Link after we configured the workspace and attached AKS
+  depends_on = [null_resource.compute_resouces, azurerm_kubernetes_cluster.aml_aks]
 }
