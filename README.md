@@ -19,6 +19,8 @@ This includes rollout of the following resources:
 
 ## Instructions
 
+Make sure you have the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and the Azure Machine Learning CLI extension installed (`az extension add -n azure-cli-ml`).
+
 1. Copy `terraform.tfvars.example` to `terraform.tfvars`
 1. Update `terraform.tfvars` with your desired values
 2. Run Terraform
