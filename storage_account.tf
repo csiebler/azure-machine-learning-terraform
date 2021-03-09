@@ -18,6 +18,9 @@ resource "azurerm_storage_account_network_rules" "firewall_rules" {
   ip_rules                   = []
   virtual_network_subnet_ids = [azurerm_subnet.aml_subnet.id]
   bypass                     = ["AzureServices"]
+
+  # Set network policies after Workspace has been created (will create File Share Datastore properly)
+  depends_on = [azurerm_machine_learning_workspace.aml_ws]
 }
 
 # DNS Zones
