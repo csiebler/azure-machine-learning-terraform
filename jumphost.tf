@@ -5,12 +5,12 @@
 
 # Jump for testing VNET and Private Link
 
-resource "azurerm_public_ip" "jumphost_public_ip" {
-  name                = "jumphost-pip"
-  location            = azurerm_resource_group.aml_rg.location
-  resource_group_name = azurerm_resource_group.aml_rg.name
-  allocation_method   = "Dynamic"
-}
+# resource "azurerm_public_ip" "jumphost_public_ip" {
+#   name                = "jumphost-pip"
+#   location            = azurerm_resource_group.aml_rg.location
+#   resource_group_name = azurerm_resource_group.aml_rg.name
+#   allocation_method   = "Dynamic"
+# }
 
 resource "azurerm_network_interface" "jumphost_nic" {
   name                = "jumphost-nic"
@@ -21,7 +21,7 @@ resource "azurerm_network_interface" "jumphost_nic" {
     name                          = "configuration"
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = azurerm_subnet.aml_subnet.id
-    public_ip_address_id          = azurerm_public_ip.jumphost_public_ip.id
+    # public_ip_address_id          = azurerm_public_ip.jumphost_public_ip.id
   }
 }
 
