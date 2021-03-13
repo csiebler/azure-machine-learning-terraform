@@ -1,3 +1,8 @@
+# Copyright (c) 2021 Microsoft
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 # Key Vault with VNET binding and Private Endpoint
 
 resource "azurerm_key_vault" "aml_kv" {
