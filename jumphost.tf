@@ -94,7 +94,7 @@ resource "azurerm_dev_test_global_vm_shutdown_schedule" "jumphost_schedule" {
   enabled            = true
 
   daily_recurrence_time = "2000"
-  timezone              = "Central Standard Time"
+  timezone              = "W. Europe Standard Time"
 
   notification_settings {
     enabled = false
