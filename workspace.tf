@@ -23,7 +23,7 @@ resource "null_resource" "compute_resouces" {
   }
 
   provisioner "local-exec" {
-    command="az ml computetarget create computeinstance --name ${var.prefix}-instance01 --vm-size Standard_DS3_v2 --vnet-name ${azurerm_subnet.aml_subnet.virtual_network_name} --subnet-name ${azurerm_subnet.aml_subnet.name} --vnet-resourcegroup-name ${azurerm_subnet.aml_subnet.resource_group_name} --resource-group ${azurerm_machine_learning_workspace.aml_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.aml_ws.name}"
+    command="az ml computetarget create computeinstance --name ${random_string.postfix.result}-ci01 --vm-size Standard_DS3_v2 --vnet-name ${azurerm_subnet.aml_subnet.virtual_network_name} --subnet-name ${azurerm_subnet.aml_subnet.name} --vnet-resourcegroup-name ${azurerm_subnet.aml_subnet.resource_group_name} --resource-group ${azurerm_machine_learning_workspace.aml_ws.resource_group_name} --workspace-name ${azurerm_machine_learning_workspace.aml_ws.name}"
   }
  
   depends_on = [azurerm_machine_learning_workspace.aml_ws]
