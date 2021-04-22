@@ -10,7 +10,7 @@ resource "azurerm_key_vault" "aml_kv" {
   network_acls {
     default_action = "Deny"
     ip_rules       = []
-    virtual_network_subnet_ids = [azurerm_subnet.aml_subnet.id]
+    virtual_network_subnet_ids = [azurerm_subnet.aml_subnet.id, azurerm_subnet.compute_subnet.id, azurerm_subnet.aks_subnet.id]
     bypass         = "AzureServices"
   }
 }

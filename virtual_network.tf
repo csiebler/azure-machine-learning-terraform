@@ -16,10 +16,20 @@ resource "azurerm_subnet" "aml_subnet" {
   enforce_private_link_endpoint_network_policies = true
 }
 
-resource "azurerm_subnet" "aks_subnet" {
-  count                = var.deploy_aks ? 1 : 0
-  name                 = "${var.prefix}-aks-subnet-${random_string.postfix.result}"
+resource "azurerm_subnet" "compute_subnet" {
+  name                 = "${var.prefix}-compute-subnet-${random_string.postfix.result}"
   resource_group_name  = azurerm_resource_group.aml_rg.name
   virtual_network_name = azurerm_virtual_network.aml_vnet.name
   address_prefixes     = ["10.0.2.0/24"]
+  service_endpoints    = ["Microsoft.ContainerRegistry", "Microsoft.KeyVault", "Microsoft.Storage"]
+  enforce_private_link_service_network_policies = false
+  enforce_private_link_endpoint_network_policies = false
+}
+
+resource "azurerm_subnet" "aks_subnet" {
+  name                 = "${var.prefix}-aks-subnet-${random_string.postfix.result}"
+  resource_group_name  = azurerm_resource_group.aml_rg.name
+  virtual_network_name = azurerm_virtual_network.aml_vnet.name
+  address_prefixes     = ["10.0.3.0/24"]
+  service_endpoints    = ["Microsoft.ContainerRegistry", "Microsoft.KeyVault", "Microsoft.Storage"]
 }
