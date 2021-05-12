@@ -3,14 +3,7 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-# Jump for testing VNET and Private Link
-
-# resource "azurerm_public_ip" "jumphost_public_ip" {
-#   name                = "jumphost-pip"
-#   location            = azurerm_resource_group.aml_rg.location
-#   resource_group_name = azurerm_resource_group.aml_rg.name
-#   allocation_method   = "Dynamic"
-# }
+# Jump host for testing VNET and Private Link
 
 resource "azurerm_network_interface" "jumphost_nic" {
   name                = "jumphost-nic"

@@ -11,7 +11,7 @@ resource "azurerm_public_ip" "bastion_ip" {
   sku                 = "Standard"
 }
 
-resource "azurerm_bastion_host" "example" {
+resource "azurerm_bastion_host" "jumphost_bastion" {
   name                = "${var.prefix}-bastion-host"
   location            = azurerm_resource_group.aml_rg.location
   resource_group_name = azurerm_resource_group.aml_rg.name
