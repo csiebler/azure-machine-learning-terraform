@@ -1,3 +1,8 @@
+# Copyright (c) 2021 Microsoft
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 # Virtual Network definition
 
 resource "azurerm_virtual_network" "aml_vnet" {
@@ -32,4 +37,11 @@ resource "azurerm_subnet" "aks_subnet" {
   virtual_network_name = azurerm_virtual_network.aml_vnet.name
   address_prefixes     = ["10.0.3.0/24"]
   service_endpoints    = ["Microsoft.ContainerRegistry", "Microsoft.KeyVault", "Microsoft.Storage"]
+}
+
+resource "azurerm_subnet" "bastion_subnet" {
+  name                 = "AzureBastionSubnet"
+  resource_group_name  = azurerm_resource_group.aml_rg.name
+  virtual_network_name = azurerm_virtual_network.aml_vnet.name
+  address_prefixes     = ["10.0.10.0/27"]
 }

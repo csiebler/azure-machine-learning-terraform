@@ -1,3 +1,8 @@
+# Copyright (c) 2021 Microsoft
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 # Azure Machine Learning Workspace with Private Link
 
 resource "azurerm_machine_learning_workspace" "aml_ws" {

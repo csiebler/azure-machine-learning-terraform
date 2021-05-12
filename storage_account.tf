@@ -1,3 +1,8 @@
+# Copyright (c) 2021 Microsoft
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 # Storage Account with VNET binding and Private Endpoint for Blob and File
 
 resource "azurerm_storage_account" "aml_sa" {

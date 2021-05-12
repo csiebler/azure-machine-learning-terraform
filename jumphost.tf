@@ -1,11 +1,9 @@
-# Jump for testing VNET and Private Link
+# Copyright (c) 2021 Microsoft
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
 
-resource "azurerm_public_ip" "jumphost_public_ip" {
-  name                    = "jumphost-pip"
-  location                = azurerm_resource_group.aml_rg.location
-  resource_group_name     = azurerm_resource_group.aml_rg.name
-  allocation_method       = "Dynamic"
-}
+# Jump host for testing VNET and Private Link
 
 resource "azurerm_network_interface" "jumphost_nic" {
   name                = "jumphost-nic"
@@ -16,7 +14,7 @@ resource "azurerm_network_interface" "jumphost_nic" {
     name                          = "configuration"
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = azurerm_subnet.aml_subnet.id
-    public_ip_address_id          = azurerm_public_ip.jumphost_public_ip.id
+    # public_ip_address_id          = azurerm_public_ip.jumphost_public_ip.id
   }
 }
 
@@ -50,7 +48,7 @@ resource "azurerm_virtual_machine" "jumphost" {
   network_interface_ids = [azurerm_network_interface.jumphost_nic.id]
   vm_size               = "Standard_DS3_v2"
 
-  delete_os_disk_on_termination = true
+  delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
 
   storage_image_reference {
@@ -72,7 +70,7 @@ resource "azurerm_virtual_machine" "jumphost" {
   }
 
   identity {
-      type = "SystemAssigned"
+    type = "SystemAssigned"
   }
 
   storage_os_disk {
@@ -92,6 +90,6 @@ resource "azurerm_dev_test_global_vm_shutdown_schedule" "jumphost_schedule" {
   timezone              = "W. Europe Standard Time"
 
   notification_settings {
-    enabled         = false
+    enabled = false
   }
 }

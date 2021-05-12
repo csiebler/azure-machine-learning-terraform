@@ -12,7 +12,7 @@ This includes rollout of the following resources:
 * Azure Container Registry
 * Azure Application Insights
 * Virtual Network
-* Jumphost (Windows) for testing
+* Jumphost (Windows) with Bastion for easy access to the VNET
 * Compute Cluster (in VNET)
 * Compute Instance (in VNET)
 * (Azure Kubernetes Service - disabled by default and still under development)
