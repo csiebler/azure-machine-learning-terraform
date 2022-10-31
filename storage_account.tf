@@ -16,8 +16,7 @@ resource "azurerm_storage_account" "aml_sa" {
 # Virtual Network & Firewall configuration
 
 resource "azurerm_storage_account_network_rules" "firewall_rules" {
-  resource_group_name  = azurerm_resource_group.aml_rg.name
-  storage_account_name = azurerm_storage_account.aml_sa.name
+  storage_account_id = azurerm_storage_account.aml_sa.id
 
   default_action             = "Deny"
   ip_rules                   = []
