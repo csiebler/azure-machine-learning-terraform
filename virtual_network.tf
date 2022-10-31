@@ -18,7 +18,7 @@ resource "azurerm_subnet" "aml_subnet" {
   virtual_network_name = azurerm_virtual_network.aml_vnet.name
   address_prefixes     = ["10.0.1.0/24"]
   service_endpoints    = ["Microsoft.ContainerRegistry", "Microsoft.KeyVault", "Microsoft.Storage"]
-  enforce_private_link_endpoint_network_policies = true
+  private_endpoint_network_policies_enabled = true
 }
 
 resource "azurerm_subnet" "compute_subnet" {
@@ -27,8 +27,8 @@ resource "azurerm_subnet" "compute_subnet" {
   virtual_network_name = azurerm_virtual_network.aml_vnet.name
   address_prefixes     = ["10.0.2.0/24"]
   service_endpoints    = ["Microsoft.ContainerRegistry", "Microsoft.KeyVault", "Microsoft.Storage"]
-  enforce_private_link_service_network_policies = false
-  enforce_private_link_endpoint_network_policies = false
+  private_link_service_network_policies_enabled = false
+  private_endpoint_network_policies_enabled = false
 }
 
 resource "azurerm_subnet" "aks_subnet" {
